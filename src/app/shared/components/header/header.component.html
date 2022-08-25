@@ -1,25 +1,39 @@
-<p>header works!</p>
+<!-- NAVIGATION BAR CODE -->
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+    <div class="container">
+      <a class="navbar-brand text-white" href="#">TraDone</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form class="d-flex searchinput">
+        <input class="form-control me-2" type="search" placeholder="Search for product" aria-label="Search">
+        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
       </form>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 m-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Login</a>
+          <!-- <li class="nav-item ms-2">
+            <a class="nav-link active text-white" aria-current="page" data-bs-toggle="modal" data-bs-target="#exampleModal" >Login</a>
+          </li> -->
+          <li class="nav-item listItem" *ngIf="!isUserLoggedIn">
+            <a class="btn btn-white bg-white nav-link active text-dark loginBtn" aria-current="page" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Become a seller</a>
+          <li class="nav-item dropdown listItem" *ngIf="isUserLoggedIn">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{user.firstName}}&nbsp;{{user.lastName}}
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/signUp" >My Profile</a></li>
+              <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <li class="nav-item ms-2">
+            <a class="nav-link text-white" href="#">Become a seller</a>
+          </li>
+          <li class="nav-item dropdown ms-2 ">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               More
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -29,10 +43,40 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-item" href="#" >Cart</a>
+          <li class="nav-item ms-2">
+            <a class="nav-link text-white" href="#"><i class="bi bi-cart3"></i>
+              Cart</a>
           </li>
+
         </ul>
       </div>
     </div>
   </nav>
+  <!-- modal code -->
+  <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel"><i>{{actionType}}</i></h5>
+        <button type="button" #buttonClose class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <app-signin *ngIf="actionType == 'SignIn'"></app-signin>
+        <app-signup *ngIf="actionType == 'SignUp'" [actionName]="'SignUp'"></app-signup> -->
+<app-singin *ngIf="actionType=='SignIn'" (signInCompleted)="signInHandler($event)"></app-singin> 
+<app-singup *ngIf="actionType=='SignUp'" [actionName]="'SignUp'"  (signUpCompleted)="signUpHandler($event)"></app-singup>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary m-auto" *ngIf="actionType=='SignIn'" (click)="handleAction()" >New User</button>
+      </div>
+    </div>
+  </div>
+</div>
